@@ -452,25 +452,38 @@ public class Table
      */
     private boolean typeCheck (Comparable [] t)
     { 
-        //  T O   B E   I M P L E M E N T E D 
-    	Comparable [] tup = new Comparable [t.length];
-    	/*
-    	//Check size of tuple/
-        if (domain.length != table2.domain.length) {
+    	Class c;
+    	
+    	//Check size of tuple
+        if (t.length != domain.length) {
             out.println ("size ERROR: tuple size does not match domain");
             return false;
         } // if
-        
-        //Check type of each valuein tuple
-        for (int j = 0; j < domain.length; j++) {
-            if (domain [j] != table2.domain [j]) {
-                out.println ("type ERROR: tuple type does not match domain" + j);
+
+        //Check type of each value in tuple
+        for (int j = 0; j < t.length; j++) {
+        	
+        	c = t[j].getClass();	//Get type of t[j]
+        	
+        	/*If tuple type is a double, make it a float 
+        	 * since getClass does not recognize 10.00 as float
+        	 */
+        	if (t[j] instanceof Double){
+				try {
+					c = Class.forName("java.lang.Float");
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+        	}
+       
+        	if (!(c.equals(domain[j]))){
+                out.println("type ERROR: expected type of tuple is" + domain[j]);
+        		out.println("tuple type is: " + c);
                 return false;
             } // if
         } // for
-        */
-    	
-    	
+
         return true;
     } // typeCheck
 
