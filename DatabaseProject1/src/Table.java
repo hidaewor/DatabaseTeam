@@ -453,8 +453,24 @@ public class Table
     private boolean typeCheck (Comparable [] t)
     { 
         //  T O   B E   I M P L E M E N T E D 
+    	Comparable [] tup = new Comparable [t.length];
+    	/*
+    	//Check size of tuple/
+        if (domain.length != table2.domain.length) {
+            out.println ("size ERROR: tuple size does not match domain");
+            return false;
+        } // if
+        
+        //Check type of each valuein tuple
+        for (int j = 0; j < domain.length; j++) {
+            if (domain [j] != table2.domain [j]) {
+                out.println ("type ERROR: tuple type does not match domain" + j);
+                return false;
+            } // if
+        } // for
+        */
     	
-
+    	
         return true;
     } // typeCheck
 
