@@ -156,10 +156,18 @@ public class Table
     {
         out.println ("RA> " + name + ".select (" + predicate + ")");
 
-        List <Comparable []> rows = null;
-
-        //  T O   B E   I M P L E M E N T E D 
-
+        //Initialize the new list
+        List <Comparable []> rows = new ArrayList <> ();
+        //Loop through our current list of tuples
+        for (int i = 0; i<tuples.size(); i++){
+        	//If the tuple satisfies the given predicate, we want to add it to the new list of rows
+        	//Otherwise, do nothing
+        	if(predicate.test(tuples.get(i))){
+        		rows.add(tuples.get(i));
+        	}
+        }
+        //return a new table with the selected rows
+        //Worth noting that if the list of rows is empty, the new table will still be returned, but with no rows
         return new Table (name + count++, attribute, domain, key, rows);
     } // select
 
@@ -174,10 +182,24 @@ public class Table
     {
         out.println ("RA> " + name + ".select (" + keyVal + ")");
 
-        List <Comparable []> rows = null;
+      //Initialize the new list
+        List <Comparable []> rows = new ArrayList <> ();
 
-        //  T O   B E   I M P L E M E N T E D 
+        //Get a set of the index. This is necessary for iteration of a treemap
+        Set set = index.entrySet();
+        // Get an iterator for the set
+        Iterator i = set.iterator();
+        // Loop through the index
+        while(i.hasNext()) { 
+        	 Map.Entry entry = (Map.Entry)i.next();
+        	 //If the key of the entry matches the key value we're looking for, add it to the new list of rows
+        	 if(entry.getKey() == keyVal){
+        		 rows.add((Comparable[]) entry.getValue());
+        	 }
+        }
 
+      //return a new table with the selected rows
+        //Worth noting that if the list of rows is empty, the new table will still be returned, but with no rows
         return new Table (name + count++, attribute, domain, key, rows);
     } // select
 
