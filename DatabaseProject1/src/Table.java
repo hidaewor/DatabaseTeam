@@ -5,6 +5,8 @@
  * @author   John Miller
  */
 
+import Table;
+
 import java.io.*;
 import java.util.*;
 import java.util.function.*;
@@ -137,19 +139,7 @@ public class Table
         Class []  colDomain = extractDom (match (attrs), domain);//extract the domain(int, string, etc.) from attrs' type
         String [] newKey    = (Arrays.asList (attrs).containsAll (Arrays.asList (key))) ? key : attrs; //if the list of attrs contain all keys, then newKey[]=key[]. else newKey[]=attrs[]
         //asList turns the array into a list and containsAll return true or false
-        //out.println(newKey[0]); //title
-        //out.println(newKey[1]); //year
-        //out.println(key[0]); //title
-        //out.println(key[1]); //year
-        //out.println(key[2]); //error
 
-        //out.println(tuples.get(1)[0]); //1=row 0=col
-        //out.println(tuples.size());
-        //out.println(attribute.length);
-        //out.println(domain.length);
-        //out.println(attribute[0]);
-        //out.println(domain[0]);
-        
         List <Comparable []> rows = new ArrayList<Comparable []>(); //list of future tuples, Comparable are basically objects that can be compared based on their key(a comparable also)
 
         //  T O   B E   I M P L E M E N T E D 				
@@ -166,11 +156,7 @@ public class Table
         					columnLocation[c]=a;
         					//out.println("columnLocation: "+a);
         					break;
-        				}
-        			}
-        		}
-        	}
-        }
+        				}}}}}
         
         Comparable[] tempt;    //finds the correct column for each row(old tuple) and creates new tuples(rows of the desired information only)    
         int temptCount=0;       
@@ -186,18 +172,8 @@ public class Table
             				rows.add(tempt);//adds the tuple into the list			
             				temptCount=0;//resets the counter
             				
-            				}       					
-        				
-        			}
-        		}
-        		
-        	}	
-        	
-        }
-        
-        
-        
-
+            				}}}}}        
+               
         return new Table (name + count++, attrs, colDomain, newKey, rows);
     } // project
 
@@ -274,9 +250,45 @@ public class Table
         out.println ("RA> " + name + ".union (" + table2.name + ")");
         if (! compatible (table2)) return null;
 
-        List <Comparable []> rows = null;
+        List <Comparable []> rows = new ArrayList<Comparable []>();//initializes the list
 
         //  T O   B E   I M P L E M E N T E D 
+        
+        if(compatible(table2)){//if compatible then do the operation
+        	
+        	
+        	int numCols=attribute.length;//iterates through the first table's elements and stores them into the new table         	
+        	Comparable[] tempt;            
+            for(int i=0;i<tuples.size();i++){//row
+            	tempt=new Comparable[numCols];
+            	for(int i2=0;i2<numCols;i2++){//col       		
+            		Comparable data=tuples.get(i)[i2];
+            		tempt[i2]=data;           			
+            		if(i2==numCols-1){
+                		rows.add(tempt);//adds the tuple into the list			               		                				
+                		}}}            		
+                        
+            int[] rowTracker= new int[table2.tuples.size()]; //makes an array to track duplicates based on title
+            for(int i=0;i<rowTracker.length;i++){
+            	rowTracker[i]=-1;
+            }            
+          
+            for(int i=0;i<tuples.size();i++){//row of first table
+            	for(int i2=0;i2<table2.tuples.size();i2++){//row of 2nd table
+            		if(table2.tuples.get(i2)[0].equals(tuples.get(i)[0])){
+            			rowTracker[i2]=1;//becomes 1 if found in both tables
+            		}}}
+            
+            Comparable[] tempt2;//checks the rows of the second table and adds new stuff(if -1) into the new table
+            for(int i=0;i<table2.tuples.size();i++){//row of 2nd table
+            	tempt2=new Comparable[numCols];
+            	if(rowTracker[i]!=1){
+            	for(int i2=0;i2<numCols;i2++){//col       		
+            		Comparable data=table2.tuples.get(i)[i2];
+            		tempt2[i2]=data;           			
+            		if(i2==numCols-1){
+                		rows.add(tempt2);//adds the tuple into the list			               		                				
+                		}}}}}        		        		               
 
         return new Table (name + count++, attribute, domain, key, rows);
     } // union
