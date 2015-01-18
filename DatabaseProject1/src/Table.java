@@ -5,8 +5,6 @@
  * @author   John Miller
  */
 
-import Table;
-
 import java.io.*;
 import java.util.*;
 import java.util.function.*;
@@ -550,8 +548,8 @@ public class Table
         	c = t[j].getClass();	//Get type of t[j]
         	
         	/*If tuple type is a double, make it a float 
-        	 * since getClass does not recognize 10.00 as float
-        	 */
+        	 * since getClass does not recognize 10.0 as float
+        	 
         	if (t[j] instanceof Double){
 				try {
 					c = Class.forName("java.lang.Float");
@@ -559,7 +557,7 @@ public class Table
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} 
-        	}
+        	}*/
        
         	if (!(c.equals(domain[j]))){
                 out.println("type ERROR: expected type of tuple is" + domain[j]);

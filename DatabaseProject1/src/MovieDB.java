@@ -34,7 +34,7 @@ class MovieDB
                                               "String Integer String", "movieTitle movieYear starName");
 
         Table movieExec = new Table ("movieExec", "certNo name address fee",
-                                                  "Integer String String Float", "certNo");
+                                                  "Integer String String Double", "certNo");
 
         Table studio = new Table ("studio", "name address presNo",
                                             "String String Integer", "name");
@@ -99,6 +99,7 @@ class MovieDB
         out.println ();
         Table t_project = movie.project ("title year");
         t_project.print ();
+        
 
         //--------------------- select
 
