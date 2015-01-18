@@ -5,6 +5,8 @@
  * @author   John Miller
  */
 
+import Table;
+
 import java.io.*;
 import java.util.*;
 import java.util.function.*;
@@ -133,13 +135,70 @@ public class Table
     public Table project (String attributes)
     {
         out.println ("RA> " + name + ".project (" + attributes + ")");
-        String [] attrs     = attributes.split (" ");
-        Class []  colDomain = extractDom (match (attrs), domain);
-        String [] newKey    = (Arrays.asList (attrs).containsAll (Arrays.asList (key))) ? key : attrs;
+        String [] attrs     = attributes.split (" ");//stores attributes into array
+        Class []  colDomain = extractDom (match (attrs), domain);//extract the domain(int, string, etc.) from attrs' type
+        String [] newKey    = (Arrays.asList (attrs).containsAll (Arrays.asList (key))) ? key : attrs; //if the list of attrs contain all keys, then newKey[]=key[]. else newKey[]=attrs[]
+        //asList turns the array into a list and containsAll return true or false
+        //out.println(newKey[0]); //title
+        //out.println(newKey[1]); //year
+        //out.println(key[0]); //title
+        //out.println(key[1]); //year
+        //out.println(key[2]); //error
 
-        List <Comparable []> rows = null;
+        //out.println(tuples.get(1)[0]); //1=row 0=col
+        //out.println(tuples.size());
+        //out.println(attribute.length);
+        //out.println(domain.length);
+        //out.println(attribute[0]);
+        //out.println(domain[0]);
+        
+        List <Comparable []> rows = new ArrayList<Comparable []>(); //list of future tuples, Comparable are basically objects that can be compared based on their key(a comparable also)
 
-        //  T O   B E   I M P L E M E N T E D 
+        //  T O   B E   I M P L E M E N T E D 				
+        int[] columnLocation= new int[attrs.length];//makes an array to store the position of the chosen columns i.e. if title and producerNo were chosen, then it would store 0 and 5 into the array.
+        for(int d=0;d<columnLocation.length;d++){//initializes the array to -1 b/c null didn't work for me
+        	columnLocation[d]=-1;
+        }
+        
+        for(int a=0; a<attribute.length;a++){ //these nested loops determines the position and stores them       	
+        	for(int b=0;b<attrs.length;b++){
+        		if(attrs[b].equals(attribute[a])){
+        			for(int c=0;c<columnLocation.length;c++){
+        				if(columnLocation[c]==-1){
+        					columnLocation[c]=a;
+        					//out.println("columnLocation: "+a);
+        					break;
+        				}
+        			}
+        		}
+        	}
+        }
+        
+        Comparable[] tempt;    //finds the correct column for each row(old tuple) and creates new tuples(rows of the desired information only)    
+        int temptCount=0;       
+        for(int i=0;i<tuples.size();i++){//row
+        	tempt=new Comparable[attrs.length];
+        	for(int i2=0;i2<domain.length;i2++){//col       		
+        		for(int i3=0;i3<columnLocation.length;i3++){//if at right spot(cols), then store element from there into a tuple        			
+        			if(i2==columnLocation[i3]){
+        				Comparable test1=tuples.get(i)[i2];
+        				tempt[temptCount]=test1;
+        				temptCount++;
+        				if(temptCount==attrs.length){
+            				rows.add(tempt);//adds the tuple into the list			
+            				temptCount=0;//resets the counter
+            				
+            				}       					
+        				
+        			}
+        		}
+        		
+        	}	
+        	
+        }
+        
+        
+        
 
         return new Table (name + count++, attrs, colDomain, newKey, rows);
     } // project
