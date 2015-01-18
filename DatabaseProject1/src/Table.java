@@ -249,8 +249,9 @@ public class Table
         // Loop through the index
         while(i.hasNext()) { 
         	 Map.Entry entry = (Map.Entry)i.next();
+        	 KeyType aKey = (KeyType)entry.getKey();
         	 //If the key of the entry matches the key value we're looking for, add it to the new list of rows
-        	 if(entry.getKey() == keyVal){
+        	 if(aKey.equals(keyVal)){
         		 rows.add((Comparable[]) entry.getValue());
         	 }
         }
