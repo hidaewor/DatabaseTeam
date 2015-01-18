@@ -254,7 +254,7 @@ public class Table
         		 rows.add((Comparable[]) entry.getValue());
         	 }
         }
-
+       
       //return a new table with the selected rows
         //Worth noting that if the list of rows is empty, the new table will still be returned, but with no rows
         return new Table (name + count++, attribute, domain, key, rows);

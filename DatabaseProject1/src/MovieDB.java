@@ -85,6 +85,7 @@ class MovieDB
         studio.insert (studio2);
         studio.print ();
 
+        
         movie.save ();
         cinema.save ();
         movieStar.save ();
