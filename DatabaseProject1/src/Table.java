@@ -5,8 +5,6 @@
  * @author   John Miller
  */
 
-import KeyType;
-import Table;
 
 import java.io.*;
 import java.util.*;
