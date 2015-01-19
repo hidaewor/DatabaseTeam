@@ -328,34 +328,29 @@ public class Table implements Serializable
      *
      * @param table2  The rhs table in the minus operation
      * @return  a table representing the difference
-     * @author Yu Zhu
      * 
      */
     public Table minus (Table table2)
     {
         out.println ("RA> " + name + ".minus (" + table2.name + ")");
+        if (! compatible (table2)) return null;
 
-        List <Comparable []> rows = null;
-     // ------------IMPLEMENTED------------
-     		if (compatible (table2))
-     		{
-     			for (int i = 0; i < this.tuples.size (); i++)
-     			{
-     				boolean test = true;
-     				for (int j = 0; j < table2.tuples.size (); j++)
-     				{
-     					if (this.tuples.get (i).equals (table2.tuples.get (j)))
-     					{
-     						test = false;
-     						break;
-     					}
-     				}
-     				if (test)
-     				{
-     					rows.add (this.tuples.get (i));
-     				}
-     			}
-     		}
+        List <Comparable []> rows = new ArrayList <Comparable []> () ;
+    	
+        for(Comparable [] newrows : tuples){
+        	boolean check = true;
+        	for(Comparable [] row : table2.tuples){
+        		if(newrows.equals(row)){
+        			check = false;
+        			break;
+        		}
+        	}
+        	if(check)
+        	rows.add(newrows);
+        	     	       	
+        }
+
+        // I M P L E M E N T E D 
 
         return new Table (name + count++, attribute, domain, key, rows);
     } // minus
@@ -367,12 +362,10 @@ public class Table implements Serializable
      *
      * #usage movie.join ("studioNo", "name", studio)
      * #usage movieStar.join ("name == s.name", starsIn)
-     *
      * @param attribute1  the attributes of this table to be compared (Foreign Key)
      * @param attribute2  the attributes of table2 to be compared (Primary Key)
      * @param table2      the rhs table in the join operation
      * @return  a table with tuples satisfying the equality predicate
-     * @author Yu Zhu
      */
     public Table join (String attributes1, String attributes2, Table table2)
     {
@@ -382,32 +375,33 @@ public class Table implements Serializable
         String [] t_attrs = attributes1.split (" ");
         String [] u_attrs = attributes2.split (" ");
 
-        List<Comparable[]> rows = new ArrayList<> ();
-
-     // ------------IMPLEMENTED------------
-     		int[] _t_attrs = this.match (t_attrs);
-     		int[] _u_attrs = table2.match (u_attrs);
-     		for (int i = 0; i < this.tuples.size (); i++)
-     		{
-     			for (int j = 0; j < table2.tuples.size (); j++)
-     			{
-     				boolean test = false;
-     				for (int ii = 0; ii < _t_attrs.length; ii++)
-     				{
-     					if (!this.tuples.get (i)[_t_attrs[ii]].equals (table2.tuples.get (j)[_u_attrs[ii]])) break;
-     					test = true;
-     				}
-     				if (test)
-     				{
-     					rows.add (ArrayUtil.concat (this.tuples.get (i), table2.tuples.get (j)));
-     				}
-     			}
-     		}
-
-
+        List <Comparable []> rows = new ArrayList <Comparable []> () ;
+        
+        // I M P L E M E N T E D 
+        int [] newattr1 = this.match(t_attrs);
+        int [] newattr2 = table2.match(u_attrs);
+        for(Comparable [] newrows : tuples){
+        	
+        	for(Comparable [] row : table2.tuples){
+        		boolean check = true;
+        		for(int i=0;i<newattr1.length;i++){
+        			if(!(newrows[newattr1[i]].equals(row[newattr2[i]]))){
+        				check = false;
+        				break;
+        			}
+        		}
+        		if(check)
+                	rows.add(ArrayUtil.concat(newrows, row));
+        	}
+        
+        	     	       	
+        }
+        
+        
         return new Table (name + count++, ArrayUtil.concat (attribute, table2.attribute),
                                           ArrayUtil.concat (domain, table2.domain), key, rows);
     } // join
+
 
     /************************************************************************************
      * Return the column position for the given attribute name.

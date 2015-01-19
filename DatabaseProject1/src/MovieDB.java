@@ -136,74 +136,7 @@ class MovieDB
         Table t_join2 = movie.join ("title year", "title year", cinema);
         t_join2.print ();
 
-        out.println ();
-		out.println ("All above is the test book. Below is for real.");
-		
-		// --------------------- For Real ---------------------
-		// --------------------- Select
-
-		out.println ();
-		Table t_select_case1 = movie.select (new KeyType ("Star_Wars"));
-		t_select_case1.print ();
-
-		out.println ();
-		Table t_select_case2 = movie.select (t -> t[movie.col ("title")].equals ("Rambo") && t[movie.col ("year")].equals (1978) || t[movie.col ("length")].equals (124));
-		t_select_case2.print ();
-
-		out.println ();
-		Table t_select_case3 = movieStar.select (t -> t[movieStar.col ("name")].equals ("Nick"));
-		t_select_case3.print ();
-
-		// --------------------- Project
-
-		out.println ();
-		Table t_project_case1 = movie.project ("title year");
-		t_project_case1.print ();
-
-		out.println ();
-		Table t_project_case2 = cinema.project ("title genre studioName");
-		t_project_case2.print ();
-
-		out.println ();
-		Table t_project_case3 = studio.project ("abc presNo");
-		t_project_case3.print ();
-		
-		// --------------------- Union
-		
-		out.println();
-		Table t_union_case1 = movie.union (cinema);
-		t_union_case1.print ();
-		
-		out.println ();
-		Table t_union_case2 = movieStar.union (studio);
-		t_union_case2.print ();
-		
-		out.println ();
-		Table t_union_case3 = studio.union (starsIn);
-		t_union_case3.print ();
-		
-		// --------------------- Minus
-		
-		out.println ();
-		Table t_minus_case1 = movie.minus (cinema);
-		t_minus_case1.print ();
-		
-		out.println ();
-		Table t_minus_case2 = movieStar.minus (studio);
-		t_minus_case2.print ();
-		
-		out.println ();
-		Table t_minus_case3 = studio.minus (starsIn);
-		t_minus_case3.print ();
-		
-		// --------------------- Join
-		out.println ();
-		Table t_join_case1 = movie.join ("studioName", "name", studio);
-		t_join_case1.print ();
-		
-		out.println();
-		Table t_join_case2 = movieStar.join ("name", "starName", starsIn);
-		t_join_case2.print ();
+       
     } // main
 
 } // MovieDB class
