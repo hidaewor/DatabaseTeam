@@ -20,8 +20,7 @@ import static java.lang.System.out;
  * select, union, minus join.  The insert data manipulation operator is also provided.
  * Missing are update and delete data manipulation operators.
  */
-public class Table
-       implements Serializable
+public class Table implements Serializable
 {
     /** Relative path for storage directory
      */
@@ -335,7 +334,6 @@ public class Table
     public Table minus (Table table2)
     {
         out.println ("RA> " + name + ".minus (" + table2.name + ")");
-        if (! compatible (table2)) return null;
 
         List <Comparable []> rows = null;
      // ------------IMPLEMENTED------------
@@ -384,7 +382,7 @@ public class Table
         String [] t_attrs = attributes1.split (" ");
         String [] u_attrs = attributes2.split (" ");
 
-        List <Comparable []> rows = null;
+        List<Comparable[]> rows = new ArrayList<> ();
 
      // ------------IMPLEMENTED------------
      		int[] _t_attrs = this.match (t_attrs);
