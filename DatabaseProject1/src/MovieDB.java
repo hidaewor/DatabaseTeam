@@ -137,6 +137,7 @@ class MovieDB
         Table t_join2 = movie.join ("title year", "title year", cinema);
         t_join2.print ();
 
+       
     } // main
 
 } // MovieDB class
