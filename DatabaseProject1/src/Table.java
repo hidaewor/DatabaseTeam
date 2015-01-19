@@ -1,11 +1,10 @@
-//Testing push and pull with this comment. Feel free to delete it. -Bee
+
 /****************************************************************************************
  * @file  Table.java
  *
  * @author   John Miller
  */
 
-import Table;
 
 import java.io.*;
 import java.util.*;
@@ -138,8 +137,8 @@ public class Table
         String [] attrs     = attributes.split (" ");//stores attributes into array
         Class []  colDomain = extractDom (match (attrs), domain);//extract the domain(int, string, etc.) from attrs' type
         String [] newKey    = (Arrays.asList (attrs).containsAll (Arrays.asList (key))) ? key : attrs; //if the list of attrs contain all keys, then newKey[]=key[]. else newKey[]=attrs[]
-        //asList turns the array into a list and containsAll return true or false     
-        
+        //asList turns the array into a list and containsAll return true or false
+
         List <Comparable []> rows = new ArrayList<Comparable []>(); //list of future tuples, Comparable are basically objects that can be compared based on their key(a comparable also)
 
         //  T O   B E   I M P L E M E N T E D 				
@@ -173,18 +172,20 @@ public class Table
         				tempt[temptCount]=test1;
         				temptCount++;
         				if(temptCount==attrs.length){
-            				rows.add(tempt);//adds the tuple into the list			
+            				rows.add(tempt);//adds the tuple into the list	            				
+            				//index.put (new KeyType (tempt), tempt);//updates the index's key and values(the value is a Comparable[])         				
             				temptCount=0;//resets the counter
             				
-            				}       					
-        				
+            				}       					        				
         			}
         		}
         		
         	}	
         	
         }
-
+        
+       // printIndex();
+        
         return new Table (name + count++, attrs, colDomain, newKey, rows);
     } // project
 
@@ -276,7 +277,8 @@ public class Table
             		Comparable data=tuples.get(i)[i2];
             		tempt[i2]=data;           			
             		if(i2==numCols-1){
-                		rows.add(tempt);//adds the tuple into the list			               		                				
+                		rows.add(tempt);//adds the tuple into the list	
+                		//index.put (new KeyType (tuples.get(i)[0]), tempt);//updates the index's keys and values
                 		}       					            				
             		}
             	}
@@ -303,16 +305,19 @@ public class Table
             	if(rowTracker[i]!=1){
             	for(int i2=0;i2<numCols;i2++){//col       		
             		Comparable data=table2.tuples.get(i)[i2];
-            		tempt2[i2]=data;           			
+            		tempt2[i2]=data;
+            		//Comparable
             		if(i2==numCols-1){
-                		rows.add(tempt2);//adds the tuple into the list			               		                				
-                		}       					            				
+                		rows.add(tempt2);//adds the tuple into the list	
+                		//index.put (new KeyType (table2.tuples.get(i)[0], table2.tuples.get(i)[1]), tempt2);//updates the index's keys and values
+                		}       		//making key prime the same like key1(key of table 1) like in the notes			            				
             		}
             	}
             }                                 
         	        	       	
-        }        		        		               
-
+        }
+        
+        //printIndex();
         return new Table (name + count++, attribute, domain, key, rows);
     } // union
 
@@ -324,6 +329,8 @@ public class Table
      *
      * @param table2  The rhs table in the minus operation
      * @return  a table representing the difference
+     * @author Yu Zhu
+     * 
      */
     public Table minus (Table table2)
     {
@@ -331,11 +338,26 @@ public class Table
         if (! compatible (table2)) return null;
 
         List <Comparable []> rows = null;
-
-        //  T O   B E   I M P L E M E N T E D
-        //hello
-        
-
+     // ------------IMPLEMENTED------------
+     		if (compatible (table2))
+     		{
+     			for (int i = 0; i < this.tuples.size (); i++)
+     			{
+     				boolean test = true;
+     				for (int j = 0; j < table2.tuples.size (); j++)
+     				{
+     					if (this.tuples.get (i).equals (table2.tuples.get (j)))
+     					{
+     						test = false;
+     						break;
+     					}
+     				}
+     				if (test)
+     				{
+     					rows.add (this.tuples.get (i));
+     				}
+     			}
+     		}
 
         return new Table (name + count++, attribute, domain, key, rows);
     } // minus
@@ -352,6 +374,7 @@ public class Table
      * @param attribute2  the attributes of table2 to be compared (Primary Key)
      * @param table2      the rhs table in the join operation
      * @return  a table with tuples satisfying the equality predicate
+     * @author Yu Zhu
      */
     public Table join (String attributes1, String attributes2, Table table2)
     {
@@ -363,7 +386,26 @@ public class Table
 
         List <Comparable []> rows = null;
 
-        //  T O   B E   I M P L E M E N T E D 
+     // ------------IMPLEMENTED------------
+     		int[] _t_attrs = this.match (t_attrs);
+     		int[] _u_attrs = table2.match (u_attrs);
+     		for (int i = 0; i < this.tuples.size (); i++)
+     		{
+     			for (int j = 0; j < table2.tuples.size (); j++)
+     			{
+     				boolean test = false;
+     				for (int ii = 0; ii < _t_attrs.length; ii++)
+     				{
+     					if (!this.tuples.get (i)[_t_attrs[ii]].equals (table2.tuples.get (j)[_u_attrs[ii]])) break;
+     					test = true;
+     				}
+     				if (test)
+     				{
+     					rows.add (ArrayUtil.concat (this.tuples.get (i), table2.tuples.get (j)));
+     				}
+     			}
+     		}
+
 
         return new Table (name + count++, ArrayUtil.concat (attribute, table2.attribute),
                                           ArrayUtil.concat (domain, table2.domain), key, rows);
