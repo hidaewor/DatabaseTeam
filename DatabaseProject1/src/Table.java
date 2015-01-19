@@ -173,7 +173,7 @@ public class Table
         				temptCount++;
         				if(temptCount==attrs.length){
             				rows.add(tempt);//adds the tuple into the list	            				
-            				index.put (new KeyType (tempt), tempt);//updates the index's key and values(the value is a Comparable[])         				
+            				//index.put (new KeyType (tempt), tempt);//updates the index's key and values(the value is a Comparable[])         				
             				temptCount=0;//resets the counter
             				
             				}       					        				
@@ -184,7 +184,7 @@ public class Table
         	
         }
         
-        printIndex();
+       // printIndex();
         
         return new Table (name + count++, attrs, colDomain, newKey, rows);
     } // project
@@ -278,7 +278,7 @@ public class Table
             		tempt[i2]=data;           			
             		if(i2==numCols-1){
                 		rows.add(tempt);//adds the tuple into the list	
-                		index.put (new KeyType (tuples.get(i)[0]), tempt);//updates the index's keys and values
+                		//index.put (new KeyType (tuples.get(i)[0]), tempt);//updates the index's keys and values
                 		}       					            				
             		}
             	}
@@ -309,7 +309,7 @@ public class Table
             		//Comparable
             		if(i2==numCols-1){
                 		rows.add(tempt2);//adds the tuple into the list	
-                		index.put (new KeyType (table2.tuples.get(i)[0], table2.tuples.get(i)[1]), tempt2);//updates the index's keys and values
+                		//index.put (new KeyType (table2.tuples.get(i)[0], table2.tuples.get(i)[1]), tempt2);//updates the index's keys and values
                 		}       		//making key prime the same like key1(key of table 1) like in the notes			            				
             		}
             	}
@@ -317,7 +317,7 @@ public class Table
         	        	       	
         }
         
-        printIndex();
+        //printIndex();
         return new Table (name + count++, attribute, domain, key, rows);
     } // union
 
