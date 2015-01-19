@@ -331,11 +331,26 @@ public class Table
         if (! compatible (table2)) return null;
 
         List <Comparable []> rows = null;
-
-        //  T O   B E   I M P L E M E N T E D
-        //hello
-        
-
+     // ------------IMPLEMENTED------------
+     		if (compatible (table2))
+     		{
+     			for (int i = 0; i < this.tuples.size (); i++)
+     			{
+     				boolean test = true;
+     				for (int j = 0; j < table2.tuples.size (); j++)
+     				{
+     					if (this.tuples.get (i).equals (table2.tuples.get (j)))
+     					{
+     						test = false;
+     						break;
+     					}
+     				}
+     				if (test)
+     				{
+     					rows.add (this.tuples.get (i));
+     				}
+     			}
+     		}
 
         return new Table (name + count++, attribute, domain, key, rows);
     } // minus
@@ -352,6 +367,7 @@ public class Table
      * @param attribute2  the attributes of table2 to be compared (Primary Key)
      * @param table2      the rhs table in the join operation
      * @return  a table with tuples satisfying the equality predicate
+     * @author Yu Zhu
      */
     public Table join (String attributes1, String attributes2, Table table2)
     {
@@ -363,7 +379,26 @@ public class Table
 
         List <Comparable []> rows = null;
 
-        //  T O   B E   I M P L E M E N T E D 
+     // ------------IMPLEMENTED------------
+     		int[] _t_attrs = this.match (t_attrs);
+     		int[] _u_attrs = table2.match (u_attrs);
+     		for (int i = 0; i < this.tuples.size (); i++)
+     		{
+     			for (int j = 0; j < table2.tuples.size (); j++)
+     			{
+     				boolean test = false;
+     				for (int ii = 0; ii < _t_attrs.length; ii++)
+     				{
+     					if (!this.tuples.get (i)[_t_attrs[ii]].equals (table2.tuples.get (j)[_u_attrs[ii]])) break;
+     					test = true;
+     				}
+     				if (test)
+     				{
+     					rows.add (ArrayUtil.concat (this.tuples.get (i), table2.tuples.get (j)));
+     				}
+     			}
+     		}
+
 
         return new Table (name + count++, ArrayUtil.concat (attribute, table2.attribute),
                                           ArrayUtil.concat (domain, table2.domain), key, rows);
