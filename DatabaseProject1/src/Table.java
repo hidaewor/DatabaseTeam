@@ -1,4 +1,10 @@
 
+/****************************************************************************************
+ * @file  Table.java
+ *
+ * @author   John Miller
+ */
+
 import KeyType;
 import Table;
 
