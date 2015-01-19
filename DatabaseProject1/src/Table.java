@@ -324,6 +324,7 @@ public class Table
      *
      * @param table2  The rhs table in the minus operation
      * @return  a table representing the difference
+     * @author Yu Zhu
      */
     public Table minus (Table table2)
     {
