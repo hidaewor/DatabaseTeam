@@ -90,7 +90,7 @@ public class Table implements Serializable
      * @param _attribute  the string containing attributes names
      * @param _domain     the string containing attribute domains (data types)
      * @param _key        the primary key
-     * @param _tuple      the list of tuples containing the data
+     * @param _tuples      the list of tuples containing the data
      */  
     public Table (String _name, String [] _attribute, Class [] _domain, String [] _key,
                   List <Comparable []> _tuples)
@@ -191,7 +191,7 @@ public class Table implements Serializable
     /************************************************************************************
      * Select the tuples satisfying the given predicate (Boolean function).
      *
-     * #usage movie.select (t -> t[movie.col("year")].equals (1977))
+     * #usage movie.select (t ->> t[movie.col("year")].equals (1977))
      *
      * @param predicate  the check condition for tuples
      * @return  a table with tuples satisfying the predicate
