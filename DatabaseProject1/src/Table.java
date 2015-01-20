@@ -385,7 +385,7 @@ public class Table implements Serializable
         }
   
         return t;
-
+    }
 
     /************************************************************************************
      * Return the column position for the given attribute name.
