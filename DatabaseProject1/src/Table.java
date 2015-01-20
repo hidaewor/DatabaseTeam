@@ -141,24 +141,7 @@ public class Table implements Serializable
         List <Comparable []> rows = new ArrayList<Comparable []>(); //list of future tuples, Comparable are basically objects that can be compared based on their key(a comparable also)
 
         //  T O   B E   I M P L E M E N T E D 				
-        int[] columnLocation= new int[attrs.length];//makes an array to store the position of the chosen columns i.e. if title and producerNo were chosen, then it would store 0 and 5 into the array.
-        for(int d=0;d<columnLocation.length;d++){//initializes the array to -1 b/c null didn't work for me
-        	columnLocation[d]=-1;
-        }
-        
-        for(int a=0; a<attribute.length;a++){ //these nested loops determines the position and stores them       	
-        	for(int b=0;b<attrs.length;b++){
-        		if(attrs[b].equals(attribute[a])){
-        			for(int c=0;c<columnLocation.length;c++){
-        				if(columnLocation[c]==-1){
-        					columnLocation[c]=a;
-        					//out.println("columnLocation: "+a);
-        					break;
-        				}
-        			}
-        		}
-        	}
-        }
+        int [] columnLocation = this.match(attrs);
         
         Comparable[] tempt;    //finds the correct column for each row(old tuple) and creates new tuples(rows of the desired information only)    
         int temptCount=0;       
@@ -171,8 +154,7 @@ public class Table implements Serializable
         				tempt[temptCount]=test1;
         				temptCount++;
         				if(temptCount==attrs.length){
-            				rows.add(tempt);//adds the tuple into the list	            				
-            				//index.put (new KeyType (tempt), tempt);//updates the index's key and values(the value is a Comparable[])         				
+            				rows.add(tempt);//adds the tuple into the list	            				            				       				
             				temptCount=0;//resets the counter
             				
             				}       					        				
@@ -182,10 +164,14 @@ public class Table implements Serializable
         	}	
         	
         }
-        
-       // printIndex();
-        
-        return new Table (name + count++, attrs, colDomain, newKey, rows);
+  
+        List <Comparable []> rows2 = new ArrayList <> ();
+        Table t = new Table (name + count++, attrs, colDomain, newKey, rows2);
+        for (int i = 0; i<rows.size(); i++){
+        	//t.insert will automatically add that value to the table's index as well
+        	t.insert(rows.get(i));
+        }
+        return t;     
     } // project
 
     /************************************************************************************
@@ -390,11 +376,16 @@ public class Table implements Serializable
         	     	       	
         }
         
-        
-        return new Table (name + count++, ArrayUtil.concat (attribute, table2.attribute),
-                                          ArrayUtil.concat (domain, table2.domain), key, rows);
-    } // join
-
+        List <Comparable []> rows2 = new ArrayList <> ();
+        Table t = new Table (name + count++, ArrayUtil.concat (attribute, table2.attribute),
+                ArrayUtil.concat (domain, table2.domain), key, rows2);
+        for (int i = 0; i<rows.size(); i++){
+        	//t.insert will automatically add that value to the table's index as well
+        	t.insert(rows.get(i));
+        }
+  
+        return t;
+    }
 
     /************************************************************************************
      * Return the column position for the given attribute name.
