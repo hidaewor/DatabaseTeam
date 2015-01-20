@@ -266,57 +266,25 @@ public class Table implements Serializable
         //  T O   B E   I M P L E M E N T E D 
         
         if(compatible(table2)){//if compatible then do the operation
-        	
-        	
-        	int numCols=attribute.length;//iterates through the first table's elements and stores them into the new table         	
-        	Comparable[] tempt;            
-            for(int i=0;i<tuples.size();i++){//row
-            	tempt=new Comparable[numCols];
-            	for(int i2=0;i2<numCols;i2++){//col       		
-            		Comparable data=tuples.get(i)[i2];
-            		tempt[i2]=data;           			
-            		if(i2==numCols-1){
-                		rows.add(tempt);//adds the tuple into the list	
-                		//index.put (new KeyType (tuples.get(i)[0]), tempt);//updates the index's keys and values
-                		}       					            				
-            		}
-            	}
-            		
-                        
-            int[] rowTracker= new int[table2.tuples.size()]; //makes an array to track duplicates based on title
-            for(int i=0;i<rowTracker.length;i++){
-            	rowTracker[i]=-1;
+        	       	
+        	for(Comparable[] temp1 : tuples){//adds all tuples from table 1
+            	rows.add(temp1);        	
             }
             
-          
-            for(int i=0;i<tuples.size();i++){//row of first table
-            	for(int i2=0;i2<table2.tuples.size();i2++){//row of 2nd table
-            		if(table2.tuples.get(i2)[0].equals(tuples.get(i)[0])){
-            			rowTracker[i2]=1;//becomes 1 if found in both tables
+            for(Comparable[] temp1 : table2.tuples){//adds tuple from table 2, also checks for duplicates
+            	boolean unique=true;
+            	for(Comparable[] temp2 : tuples){
+            		if(temp1.equals(temp2)){
+            			unique=false;
             		}
             	}
-            	
-            }
-            
-            Comparable[] tempt2;//checks the rows of the second table and adds new stuff(if -1) into the new table
-            for(int i=0;i<table2.tuples.size();i++){//row of 2nd table
-            	tempt2=new Comparable[numCols];
-            	if(rowTracker[i]!=1){
-            	for(int i2=0;i2<numCols;i2++){//col       		
-            		Comparable data=table2.tuples.get(i)[i2];
-            		tempt2[i2]=data;
-            		//Comparable
-            		if(i2==numCols-1){
-                		rows.add(tempt2);//adds the tuple into the list	
-                		//index.put (new KeyType (table2.tuples.get(i)[0], table2.tuples.get(i)[1]), tempt2);//updates the index's keys and values
-                		}       		//making key prime the same like key1(key of table 1) like in the notes			            				
-            		}
-            	}
-            }                                 
+            	if(unique==true){
+            		rows.add(temp1);
+            	}        	
+            }                               
         	        	       	
         }
-        
-        //printIndex();
+                
         return new Table (name + count++, attribute, domain, key, rows);
     } // union
 
