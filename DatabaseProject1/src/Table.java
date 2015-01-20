@@ -210,9 +210,16 @@ public class Table implements Serializable
         		rows.add(tuples.get(i));
         	}
         }
-        //return a new table with the selected rows
+        //return a new table with the selected rows and updated index
         //Worth noting that if the list of rows is empty, the new table will still be returned, but with no rows
-        return new Table (name + count++, attribute, domain, key, rows);
+        List <Comparable []> rows2 = new ArrayList <> ();
+        Table t = new Table (name + count++, attribute, domain, key, rows2);
+        for (int i = 0; i<rows.size(); i++){
+        	//t.insert will automatically add that value to the table's index as well
+        	out.println("here");
+        	t.insert(rows.get(i));
+        }
+        return t;
     } // select
 
     /************************************************************************************
@@ -245,7 +252,13 @@ public class Table implements Serializable
        
       //return a new table with the selected rows
         //Worth noting that if the list of rows is empty, the new table will still be returned, but with no rows
-        return new Table (name + count++, attribute, domain, key, rows);
+        List <Comparable []> rows2 = new ArrayList <> ();
+        Table t = new Table (name + count++, attribute, domain, key, rows2);
+        for (int j = 0; j<rows.size(); j++){
+        	//t.insert will automatically add that value to the table's index as well
+        	t.insert(rows.get(j));
+        }
+        return t;
     } // select
 
     /************************************************************************************
@@ -285,7 +298,13 @@ public class Table implements Serializable
         	        	       	
         }
                 
-        return new Table (name + count++, attribute, domain, key, rows);
+        List <Comparable []> rows2 = new ArrayList <> ();
+        Table t = new Table (name + count++, attribute, domain, key, rows2);
+        for (int i = 0; i<rows.size(); i++){
+        	//t.insert will automatically add that value to the table's index as well
+        	t.insert(rows.get(i));
+        }
+        return t;
     } // union
 
     /************************************************************************************
@@ -320,7 +339,13 @@ public class Table implements Serializable
 
         // I M P L E M E N T E D 
 
-        return new Table (name + count++, attribute, domain, key, rows);
+        List <Comparable []> rows2 = new ArrayList <> ();
+        Table t = new Table (name + count++, attribute, domain, key, rows2);
+        for (int i = 0; i<rows.size(); i++){
+        	//t.insert will automatically add that value to the table's index as well
+        	t.insert(rows.get(i));
+        }
+        return t;
     } // minus
 
     /************************************************************************************
