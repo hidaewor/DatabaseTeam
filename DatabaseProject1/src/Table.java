@@ -6,7 +6,6 @@
  */
 
 
-
 import java.io.*;
 import java.util.*;
 import java.util.function.*;
@@ -377,10 +376,15 @@ public class Table implements Serializable
         	     	       	
         }
         
-        
-        return new Table (name + count++, ArrayUtil.concat (attribute, table2.attribute),
-                                          ArrayUtil.concat (domain, table2.domain), key, rows);
-    } // join
+        List <Comparable []> rows2 = new ArrayList <> ();
+        Table t = new Table (name + count++, ArrayUtil.concat (attribute, table2.attribute),
+                ArrayUtil.concat (domain, table2.domain), key, rows2);
+        for (int i = 0; i<rows.size(); i++){
+        	//t.insert will automatically add that value to the table's index as well
+        	t.insert(rows.get(i));
+        }
+  
+        return t;
 
 
     /************************************************************************************
